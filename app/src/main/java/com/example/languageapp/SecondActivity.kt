@@ -1,31 +1,30 @@
 package com.example.languageapp
 
-import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.languageapp.databinding.ActivitySecondBinding
 
 class SecondActivity : AppCompatActivity() {
-    private lateinit var binding: ActivitySecondBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySecondBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_second)
 
-        val username = intent.getStringExtra("username").orEmpty()
-        val role = intent.getStringExtra("role").orEmpty()
-        val n = intent.getIntExtra("numberOfLines", 5)
+        val tvGreeting = findViewById<TextView>(R.id.tvGreeting)
+        val tvLines    = findViewById<TextView>(R.id.tvLines)
+        val btnLogout  = findViewById<Button>(R.id.btnLogout)
 
-        binding.tvHeader.text = "Hello $username ($role)"
-        binding.tvLines.text = LineUtils.buildLinesAsBlock(n)
+        val username = intent.getStringExtra("username") ?: "Guest"
+        val role     = intent.getStringExtra("role") ?: "Student"
+        val count    = intent.getIntExtra("lineCount", 5)
 
-        binding.btnLogout.setOnClickListener {
-            val i = Intent(this, MainActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            }
-            startActivity(i)
-            finish()
+        tvGreeting.text = "Hello $username ($role)"
+        tvLines.text = LineUtils.buildLinesAsBlock(count)
+
+        // Requirement: Logout goes back to front page
+        btnLogout.setOnClickListener {
+            finish() // simply close this Activity to return to MainActivity
         }
     }
 }

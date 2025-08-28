@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:padding="20dp"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <RadioGroup android:id="@+id/roleGroup"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+        <RadioButton android:id="@+id/rbStudent" android:text="Student"/>
+        <RadioButton android:id="@+id/rbTeacher" android:text="Teacher"/>
+        <RadioButton android:id="@+id/rbIT" android:text="IT Support"/>
+    </RadioGroup>
+
+    <Button android:id="@+id/btnContinue" android:text="Continue"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+</LinearLayout>

@@ -1,9 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- App theme for all activities -->
-    <style name="Theme.LanguageApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- You can keep this minimal; colors are optional -->
-        <item name="android:statusBarColor">?attr/colorSurface</item>
-        <item name="android:navigationBarColor">?attr/colorSurface</item>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.LanguageApp" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/teal_200</item>
     </style>
 </resources>

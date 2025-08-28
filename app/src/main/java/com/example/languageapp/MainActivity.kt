@@ -2,29 +2,37 @@ package com.example.languageapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
-import com.example.languageapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
-        binding.btnLogin.setOnClickListener {
-            val username = binding.etUsername.text.toString().trim()
-            val role = Role.fromId(binding.rgRole.checkedRadioButtonId)
-            val numberOfLines = 5
+        val etName = findViewById<EditText>(R.id.etName)
+        val rbStudent = findViewById<RadioButton>(R.id.rbStudent)
+        val rbTeacher = findViewById<RadioButton>(R.id.rbTeacher)
+        val rbItSupport = findViewById<RadioButton>(R.id.rbItSupport)
+        val btnLogin = findViewById<Button>(R.id.btnLogin)
 
-            startActivity(
-                Intent(this, SecondActivity::class.java).apply {
-                    putExtra("username", username)
-                    putExtra("role", role.label)
-                    putExtra("numberOfLines", numberOfLines)
-                }
-            )
+        btnLogin.setOnClickListener {
+            val name = etName.text?.toString()?.trim().orEmpty()
+            val role = when {
+                rbItSupport.isChecked -> "IT Support"
+                rbTeacher.isChecked   -> "Teacher"
+                else                  -> "Student"
+            }
+
+            val intent = Intent(this, SecondActivity::class.java).apply {
+                putExtra("username", name.ifBlank { "Guest" })
+                putExtra("role", role)
+                putExtra("lineCount", 5) // requirement: 2nd screen shows N lines (here, 5)
+            }
+            startActivity(intent)
         }
     }
 }
