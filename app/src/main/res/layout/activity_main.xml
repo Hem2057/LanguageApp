@@ -1,60 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:padding="24dp"
-        android:orientation="vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/rootMain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:padding="24dp"
+        android:background="@color/tiwi_surface"
+        tools:context=".MainActivity">
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:text="Language App - Login"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <!-- Name input -->
 
-        <EditText
-            android:id="@+id/etName"
-            android:hint="Enter your name"
-            android:layout_marginTop="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_name"
+        android:imeOptions="actionDone"
+        android:inputType="textPersonName"
+        android:padding="12dp"
+        android:backgroundTint="@color/tiwi_accent_purple"
+        app:layout_constraintTop_toBottomOf="@id/tvHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
 
-        <TextView
-            android:layout_marginTop="16dp"
-            android:text="Select role:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <!-- Role label -->
+
+    <TextView
+        android:id="@+id/tvHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/login_header"
+        android:textColor="@color/tiwi_on_primary"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+    <!-- Role options -->
+    <RadioGroup
+        android:id="@+id/rgRoles"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/etName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp">
 
         <RadioButton
             android:id="@+id/rbStudent"
-            android:text="Student"
-            android:checked="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/role_student"/>
 
         <RadioButton
             android:id="@+id/rbTeacher"
-            android:text="Teacher"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/role_teacher"/>
 
-        <!-- Requirement: login type 'IT Support' -->
         <RadioButton
             android:id="@+id/rbItSupport"
-            android:text="IT Support"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/role_it"/>
+    </RadioGroup>
 
-        <Button
-            android:id="@+id/btnLogin"
-            android:text="Log in"
-            android:layout_marginTop="24dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-</ScrollView>
+
+    <!-- Login -->
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_continue"
+        android:textColor="@color/tiwi_on_primary"
+        android:background="@drawable/bg_primary_button"
+        app:layout_constraintTop_toBottomOf="@id/rgRoles"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

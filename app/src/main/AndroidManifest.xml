@@ -8,17 +8,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LanguageApp">
-        <activity
-            android:name=".SecondActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
+
+        <!-- Welcome (Launcher) -->
+
+
+
+        <activity android:name=".WelcomeActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <!-- Role selection + login (your current MainActivity) -->
+        <activity android:name=".MainActivity" android:exported="false" />
+
+        <!-- Word list details -->
+        <activity android:name=".WordDetailActivity" android:exported="false" />
+
+        <!-- Test/Line generator screen -->
+        <activity android:name=".LinesActivity" android:exported="false" />
+
+        <!-- Keep if you still use it -->
+        <activity android:name=".SecondActivity" android:exported="false"/>
+
+        <activity android:name=".RoleSelectionActivity" android:exported="false" />
+    </application>
 </manifest>

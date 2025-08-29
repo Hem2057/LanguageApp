@@ -1,6 +1,5 @@
 package com.example.languageapp
 
-
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -11,9 +10,8 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 
-        val btnStart = findViewById<Button>(R.id.btnStart)
-        btnStart.setOnClickListener {
-            startActivity(Intent(this, RoleSelectionActivity::class.java))
+        findViewById<Button>(R.id.btnStart).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 }

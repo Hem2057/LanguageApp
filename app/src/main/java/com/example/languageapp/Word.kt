@@ -1,4 +1,8 @@
 package com.example.languageapp
-import java.io.Serializable
 
-data class Word(val tiwi: String, val english: String, val example: String): Serializable
+data class Word(
+    val headword: String,
+    val gloss: String,
+    val pos: String,
+    val example: String
+)

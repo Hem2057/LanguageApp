@@ -1,7 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.LanguageApp" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
-        <item name="colorAccent">@color/teal_200</item>
+
+    <!-- Material3 theme that matches your Figma -->
+    <style name="Theme.LanguageApp" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+
+        <!-- Core colors -->
+        <item name="colorPrimary">@color/tiwi_primary</item>
+        <item name="colorSecondary">@color/tiwi_accent_purple</item>
+        <item name="colorOnPrimary">@color/tiwi_on_primary</item>
+
+        <!-- Surfaces / text -->
+        <item name="android:colorBackground">@color/tiwi_background</item>
+        <item name="colorSurface">@color/tiwi_surface</item>
+        <item name="android:textColor">@color/tiwi_text</item>
+
+        <!-- Default corner radius like Figma (12dp) -->
+        <item name="shapeAppearanceSmallComponent">@style/Shape.Small.Tiwi</item>
+        <item name="shapeAppearanceMediumComponent">@style/Shape.Medium.Tiwi</item>
+        <item name="shapeAppearanceLargeComponent">@style/Shape.Large.Tiwi</item>
     </style>
+
+    <style name="Shape.Small.Tiwi" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+    <style name="Shape.Medium.Tiwi" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+    <style name="Shape.Large.Tiwi" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
+    </style>
+
 </resources>

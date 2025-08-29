@@ -7,27 +7,27 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class WordAdapter(
-    private val words: List<Word>,
+    private val items: List<Word>,
     private val onClick: (Word) -> Unit
-) : RecyclerView.Adapter<WordAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<WordAdapter.VH>() {
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val tvWord: TextView = view.findViewById(R.id.tvWord)
-        val tvMeaning: TextView = view.findViewById(R.id.tvMeaning)
+    class VH(v: View) : RecyclerView.ViewHolder(v) {
+        val tvWord: TextView = v.findViewById(R.id.tvWord)
+        val tvGloss: TextView = v.findViewById(R.id.tvGloss)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.word_item, parent, false)
-        return ViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+        val v = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_word, parent, false)
+        return VH(v)
     }
 
-    override fun getItemCount() = words.size
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val word = words[position]
-        holder.tvWord.text = word.tiwi
-        holder.tvMeaning.text = word.english
-        holder.itemView.setOnClickListener { onClick(word) }
+    override fun onBindViewHolder(holder: VH, position: Int) {
+        val w = items[position]
+        holder.tvWord.text = w.headword
+        holder.tvGloss.text = w.gloss
+        holder.itemView.setOnClickListener { onClick(w) }
     }
+
+    override fun getItemCount(): Int = items.size
 }

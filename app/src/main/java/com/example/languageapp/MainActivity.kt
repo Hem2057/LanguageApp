@@ -27,12 +27,11 @@ class MainActivity : AppCompatActivity() {
                 else                  -> "Student"
             }
 
-            val intent = Intent(this, SecondActivity::class.java).apply {
+            startActivity(Intent(this, SecondActivity::class.java).apply {
                 putExtra("username", name.ifBlank { "Guest" })
                 putExtra("role", role)
-                putExtra("lineCount", 5) // requirement: 2nd screen shows N lines (here, 5)
-            }
-            startActivity(intent)
+                putExtra("lineCount", 5)
+            })
         }
     }
 }

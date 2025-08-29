@@ -1,13 +1,17 @@
 <resources>
     <string name="app_name">LanguageApp</string>
+    <string name="welcome_title">Tiwi Language</string>
+    <string name="welcome_sub">Learn words, phrases and stories</string>
+    <string name="btn_start">Start</string>
 
-    <string name="hint_username">Username</string>
+    <string name="login_header">Who are you?</string>
+    <string name="hint_name">Your name</string>
     <string name="role_student">Student</string>
     <string name="role_teacher">Teacher</string>
-    <string name="role_it_support">IT Support</string>
-    <string name="login">Log in</string>
-    <string name="logout">Logout</string>
+    <string name="role_it">IT Support</string>
+    <string name="btn_continue">Continue</string>
 
-    <string name="hello_role">Hello %1$s (%2$s)</string>
-    <string name="lines_label">Generated Lines</string>
+    <string name="hello_user">Hello, %1$s</string>
+    <string name="your_role">Role: %1$s</string>
+    <string name="btn_logout">Logout</string>
 </resources>

@@ -1,31 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="24dp"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/rootSecond"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:padding="24dp"
+tools:context=".SecondActivity">
 
-    <TextView
-        android:id="@+id/tvGreeting"
-        android:text="Hello"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+<TextView
+    android:id="@+id/tvUser"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:textColor="@color/tiwi_surface"
+    android:textSize="18sp"
+    android:textStyle="bold"
+    tools:text="Hello, Guest"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/btnLogout"/>
 
-    <TextView
-        android:id="@+id/tvLines"
-        android:layout_marginTop="16dp"
-        android:text="Lines will appear here"
-        android:textSize="16sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+<Button
+    android:id="@+id/btnLogout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/btn_logout"
+    android:background="@drawable/bg_primary_button"
+    android:textColor="@color/tiwi_on_primary"
+    app:layout_constraintTop_toTopOf="@id/tvUser"
+    app:layout_constraintBottom_toBottomOf="@id/tvUser"
+    app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Requirement: logout button to go back to front page -->
-    <Button
-        android:id="@+id/btnLogout"
-        android:text="Logout"
-        android:layout_marginTop="24dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+<TextView
+    android:id="@+id/tvRole"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:textColor="@color/tiwi_surface"
+    android:textSize="14sp"
+    tools:text="Role: Student"
+    app:layout_constraintTop_toBottomOf="@id/tvUser"
+    app:layout_constraintStart_toStartOf="@id/tvUser"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_marginTop="4dp"/>
+
+<TextView
+    android:id="@+id/tvLines"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:textColor="@color/tiwi_background"
+    android:textSize="16sp"
+    android:lineSpacingExtra="6dp"
+    tools:text="• Line 1\n• Line 2\n• Line 3\n• Line 4\n• Line 5"
+    app:layout_constraintTop_toBottomOf="@id/tvRole"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_marginTop="16dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
