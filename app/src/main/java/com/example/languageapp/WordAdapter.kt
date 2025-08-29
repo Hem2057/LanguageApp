@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class WordAdapter(
-    private val items: List<Word>,
-    private val onClick: (Word) -> Unit
-) : RecyclerView.Adapter<WordAdapter.VH>() {
+class WordAdapter(private val fullList: MutableList<Word>) :
+    RecyclerView.Adapter<WordAdapter.VH>() {
 
-    class VH(v: View) : RecyclerView.ViewHolder(v) {
-        val tvWord: TextView = v.findViewById(R.id.tvWord)
-        val tvGloss: TextView = v.findViewById(R.id.tvGloss)
+    private val current = mutableListOf<Word>().apply { addAll(fullList) }
+
+    inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvWord: TextView = itemView.findViewById(R.id.tvWord)
+        val tvMeaning: TextView = itemView.findViewById(R.id.tvMeaning)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -22,12 +22,31 @@ class WordAdapter(
         return VH(v)
     }
 
+    override fun getItemCount(): Int = current.size
+
     override fun onBindViewHolder(holder: VH, position: Int) {
-        val w = items[position]
-        holder.tvWord.text = w.headword
-        holder.tvGloss.text = w.gloss
-        holder.itemView.setOnClickListener { onClick(w) }
+        val item = current[position]
+        holder.tvWord.text = item.word
+        holder.tvMeaning.text = item.meaning
+
+        // Click to open details (optional)
+        holder.itemView.setOnClickListener {
+            // TODO: start WordDetailActivity if you want
+        }
     }
 
-    override fun getItemCount(): Int = items.size
+    fun filter(query: String) {
+        val q = query.trim().lowercase()
+        current.clear()
+        if (q.isEmpty()) {
+            current.addAll(fullList)
+        } else {
+            current.addAll(
+                fullList.filter {
+                    it.word.lowercase().contains(q) || it.meaning.lowercase().contains(q)
+                }
+            )
+        }
+        notifyDataSetChanged()
+    }
 }

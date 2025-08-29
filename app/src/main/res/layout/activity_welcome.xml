@@ -4,12 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootWelcome"
-    android:background="@color/tiwi_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WelcomeActivity"
-    android:padding="24dp">
-
+    android:background="@color/tiwi_background"
+    android:padding="24dp"
+    tools:context=".WelcomeActivity">
 
     <!-- Badge -->
     <FrameLayout
@@ -17,81 +16,83 @@
         android:layout_width="88dp"
         android:layout_height="88dp"
         android:background="@drawable/bg_card"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="48dp">
+        android:layout_marginTop="64dp">
 
         <ImageView
-            android:src="@drawable/ic_book"
-            android:layout_gravity="center"
+            android:id="@+id/ivBook"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:tint="@color/tiwi_primary"/>
+            android:layout_gravity="center"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_book"
+            app:tint="@color/tiwi_primary"
+            tools:ignore="ContentDescription" />
     </FrameLayout>
 
     <!-- Title -->
-
-
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/welcome_title"
         android:textColor="@color/tiwi_text"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/badge"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginTop="80dp"/>
+        android:layout_marginTop="20dp" />
 
     <!-- Subtitle -->
-
     <TextView
         android:id="@+id/tvSubtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/welcome_sub"
         android:textColor="@color/tiwi_text_secondary"
         android:textSize="16sp"
-        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="12dp" />
 
     <!-- Get Started -->
-
     <Button
         android:id="@+id/btnStart"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_primary_button"
         android:text="@string/btn_start"
         android:textColor="@color/tiwi_on_primary"
-        android:background="@drawable/bg_primary_button"
-        app:layout_constraintWidth_min="160dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         android:layout_marginStart="48dp"
         android:layout_marginEnd="48dp"
-        android:layout_marginBottom="120dp"/>
+        android:layout_marginBottom="120dp"
+        app:layout_constraintWidth_min="160dp" />
 
+    <!-- Footer tagline -->
     <TextView
-        android:text="Honoring Tiwi culture and language"
-        android:textColor="@color/tiwi_text_secondary"
-        android:textSize="12sp"
+        android:id="@+id/tvFooter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/welcome_footer"
+        android:textColor="@color/tiwi_text_secondary"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="24dp"/>
-
+        android:layout_marginBottom="24dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

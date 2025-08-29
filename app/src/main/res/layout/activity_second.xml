@@ -1,60 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/rootSecond"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:padding="24dp"
-tools:context=".SecondActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
 
-<TextView
-    android:id="@+id/tvUser"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:textColor="@color/tiwi_surface"
-    android:textSize="18sp"
-    android:textStyle="bold"
-    tools:text="Hello, Guest"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toStartOf="@id/btnLogout"/>
+    <!-- Username -->
+    <TextView
+        android:id="@+id/tvUser"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="Hello, Guest"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-<Button
-    android:id="@+id/btnLogout"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/btn_logout"
-    android:background="@drawable/bg_primary_button"
-    android:textColor="@color/tiwi_on_primary"
-    app:layout_constraintTop_toTopOf="@id/tvUser"
-    app:layout_constraintBottom_toBottomOf="@id/tvUser"
-    app:layout_constraintEnd_toEndOf="parent"/>
+    <!-- Role -->
+    <TextView
+        android:id="@+id/tvRole"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Your role: Student"
+        app:layout_constraintTop_toBottomOf="@id/tvUser"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-<TextView
-    android:id="@+id/tvRole"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:textColor="@color/tiwi_surface"
-    android:textSize="14sp"
-    tools:text="Role: Student"
-    app:layout_constraintTop_toBottomOf="@id/tvUser"
-    app:layout_constraintStart_toStartOf="@id/tvUser"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_marginTop="4dp"/>
+    <!-- Line block -->
+    <TextView
+        android:id="@+id/tvLines"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:padding="12dp"
+        android:background="#1F000000"
+        android:textColor="#222222"
+        android:text="(lines here)"
+        app:layout_constraintTop_toBottomOf="@id/tvRole"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnGoToWords" />
 
-<TextView
-    android:id="@+id/tvLines"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    android:textColor="@color/tiwi_background"
-    android:textSize="16sp"
-    android:lineSpacingExtra="6dp"
-    tools:text="• Line 1\n• Line 2\n• Line 3\n• Line 4\n• Line 5"
-    app:layout_constraintTop_toBottomOf="@id/tvRole"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_marginTop="16dp"/>
+    <!-- Go to Words button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGoToWords"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Go to Words"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnLogout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        android:layout_marginEnd="8dp" />
+
+    <!-- Logout button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLogout"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@id/btnGoToWords"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        android:layout_marginStart="8dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

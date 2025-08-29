@@ -1,28 +1,54 @@
 package com.example.languageapp
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.languageapp.databinding.ActivityWordBinding
+import androidx.core.widget.addTextChangedListener
 
 class WordActivity : AppCompatActivity() {
+
+    private lateinit var b: ActivityWordBinding
+    private lateinit var adapter: WordAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_word)
+        b = ActivityWordBinding.inflate(layoutInflater)
+        setContentView(b.root)
 
-        val rv = findViewById<RecyclerView>(R.id.rvWords)
-        rv.layoutManager = LinearLayoutManager(this)
+        // Top app bar title
+        setSupportActionBar(b.toolbar)
+        supportActionBar?.title = "Tiwi Language Learning Mobile App"
 
-        // Sample data (later you’ll load from JSON, see Part 6)
-        val words = WordRepository.load(this)
+        // Sample data – replace with your repository later if you want
+        val words = listOf(
+            Word("Yirrikapayi", "Hello/Greeting"),
+            Word("Pwanga", "Water"),
+            Word("Wuta", "Sun"),
+            Word("Kulama", "Traditional ceremony"),
+            Word("Jingi", "Fish"),
+            Word("Tupuni", "Fire"),
+            Word("Mirta", "Moon"),
+            Word("Ampirri", "Star"),
+            Word("Kapitiya", "Tree"),
+            Word("Pima", "House")
+        )
 
-        rv.adapter = WordAdapter(words) { w ->
-            val i = Intent(this, WordDetailActivity::class.java)
-            i.putExtra("word", w.headword)
-            i.putExtra("gloss", w.gloss)
-            i.putExtra("example", w.example)
-            startActivity(i)
+        adapter = WordAdapter(words.toMutableList())
+
+        b.recycler.apply {
+            layoutManager = LinearLayoutManager(this@WordActivity)
+            adapter = this@WordActivity.adapter
+        }
+
+        // Search filter
+        b.tietSearch.addTextChangedListener { text ->
+            adapter.filter(text?.toString().orEmpty())
+        }
+
+        // Logout action (adjust to your flow)
+        b.btnLogout.setOnClickListener {
+            finish() // or navigate wherever you want
         }
     }
 }

@@ -1,16 +1,30 @@
 <resources>
     <string name="app_name">LanguageApp</string>
+
+    <!-- Welcome -->
+    <string name="login_header">Login</string>
     <string name="welcome_title">Tiwi Language</string>
     <string name="welcome_sub">Learn words, phrases and stories</string>
     <string name="btn_start">Start</string>
+    <string name="welcome_footer">Honoring Tiwi culture and language</string>
 
-    <string name="login_header">Who are you?</string>
+    <!-- Role selection -->
+    <string name="role_title">Select Your Role</string>
+    <string name="role_subtitle">Choose your role to customize your experience</string>
     <string name="hint_name">Your name</string>
+
     <string name="role_student">Student</string>
+    <string name="role_student_sub">Learn Tiwi words and phrases</string>
+
     <string name="role_teacher">Teacher</string>
+    <string name="role_teacher_sub">Manage lessons and track progress</string>
+
     <string name="role_it">IT Support</string>
+    <string name="role_it_sub">Technical administration</string>
+
     <string name="btn_continue">Continue</string>
 
+    <!-- Second screen -->
     <string name="hello_user">Hello, %1$s</string>
     <string name="your_role">Role: %1$s</string>
     <string name="btn_logout">Logout</string>

@@ -6,12 +6,16 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
 class WelcomeActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 
-        findViewById<Button>(R.id.btnStart).setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+        val btnStart = findViewById<Button>(R.id.btnStart)
+
+        btnStart.setOnClickListener {
+            // Go to role selection screen
+            startActivity(Intent(this, RoleSelectionActivity::class.java))
         }
     }
 }
