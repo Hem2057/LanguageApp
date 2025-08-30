@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:padding="20dp">
 
-    <!-- Username -->
     <TextView
         android:id="@+id/tvUser"
         android:layout_width="0dp"
@@ -18,7 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Role -->
     <TextView
         android:id="@+id/tvRole"
         android:layout_width="0dp"
@@ -29,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Line block -->
+    <!-- Optional block; if you aren't using tvLines, delete it AND its references in Kotlin -->
     <TextView
         android:id="@+id/tvLines"
         android:layout_width="0dp"
@@ -44,7 +42,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btnGoToWords" />
 
-    <!-- Go to Words button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnGoToWords"
         style="@style/Widget.MaterialComponents.Button"
@@ -52,13 +49,11 @@
         android:layout_height="wrap_content"
         android:text="Go to Words"
         android:textAllCaps="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btnLogout"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_weight="1"
-        android:layout_marginEnd="8dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnLogout" />
 
-    <!-- Logout button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogout"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -66,10 +61,9 @@
         android:layout_height="wrap_content"
         android:text="Logout"
         android:textAllCaps="false"
-        app:layout_constraintStart_toEndOf="@id/btnGoToWords"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_weight="1"
-        android:layout_marginStart="8dp" />
+        app:layout_constraintStart_toEndOf="@id/btnGoToWords"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

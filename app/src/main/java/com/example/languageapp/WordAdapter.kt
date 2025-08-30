@@ -28,11 +28,6 @@ class WordAdapter(private val fullList: MutableList<Word>) :
         val item = current[position]
         holder.tvWord.text = item.word
         holder.tvMeaning.text = item.meaning
-
-        // Click to open details (optional)
-        holder.itemView.setOnClickListener {
-            // TODO: start WordDetailActivity if you want
-        }
     }
 
     fun filter(query: String) {

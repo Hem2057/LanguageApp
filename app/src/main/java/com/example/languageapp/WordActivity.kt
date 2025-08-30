@@ -1,11 +1,12 @@
 package com.example.languageapp
-
+import android.util.Log
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.languageapp.databinding.ActivityWordBinding
 import androidx.core.widget.addTextChangedListener
-
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 class WordActivity : AppCompatActivity() {
 
     private lateinit var b: ActivityWordBinding
@@ -20,26 +21,22 @@ class WordActivity : AppCompatActivity() {
         setSupportActionBar(b.toolbar)
         supportActionBar?.title = "Tiwi Language Learning Mobile App"
 
-        // Sample data – replace with your repository later if you want
-        val words = listOf(
-            Word("Yirrikapayi", "Hello/Greeting"),
-            Word("Pwanga", "Water"),
-            Word("Wuta", "Sun"),
-            Word("Kulama", "Traditional ceremony"),
-            Word("Jingi", "Fish"),
-            Word("Tupuni", "Fire"),
-            Word("Mirta", "Moon"),
-            Word("Ampirri", "Star"),
-            Word("Kapitiya", "Tree"),
-            Word("Pima", "House")
-        )
+
+//        val json = intent.getStringExtra("words_json")
+//        val type = object : TypeToken<List<Word>>() {}.type
+//        val words: List<Word> = if (json != null) {
+//            Gson().fromJson(json, type)
+//        } else{
+//            emptyList()
+//
+//        }
+        val words = WordRepository.getWords()
+
+        //RecylerView
 
         adapter = WordAdapter(words.toMutableList())
-
-        b.recycler.apply {
-            layoutManager = LinearLayoutManager(this@WordActivity)
-            adapter = this@WordActivity.adapter
-        }
+        b.recycler.layoutManager = LinearLayoutManager(this)
+        b.recycler.adapter = adapter
 
         // Search filter
         b.tietSearch.addTextChangedListener { text ->

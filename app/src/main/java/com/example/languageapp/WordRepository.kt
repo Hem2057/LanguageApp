@@ -1,8 +1,7 @@
 package com.example.languageapp
 
 object WordRepository {
-    fun getWords(): List<Word> {
-        return listOf(
+    fun getWords(): List<Word> =  listOf(
             Word("Yirrikapayi", "Hello/Greeting"),
             Word("Pwanga", "Water"),
             Word("Wuta", "Sun"),
@@ -15,4 +14,4 @@ object WordRepository {
             Word("Pima", "House")
         )
     }
-}
+
