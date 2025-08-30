@@ -14,16 +14,16 @@ class SecondActivity : AppCompatActivity() {
 
         val username = intent.getStringExtra("username") ?: "Guest"
         val role = intent.getStringExtra("role") ?: "Student"
-//        val count = intent.getIntExtra("lineCount", 5)
+        val count = intent.getIntExtra("lineCount", 5)
 
         findViewById<TextView>(R.id.tvUser).text =
             getString(R.string.hello_user, username)
         findViewById<TextView>(R.id.tvRole).text =
             getString(R.string.your_role, role)
-//        findViewById<TextView>(R.id.tvLines).text =
-//            LineUtils.buildLinesAsBlock(count)
-    // get word from repository
+        findViewById<TextView>(R.id.tvLines).text =
+            LineUtils.buildLinesAsBlock(count)
 
+    // get word from repository
         // Go to Words button
         findViewById<Button>(R.id.btnGoToWords).setOnClickListener {
             val words = WordRepository.getWords()

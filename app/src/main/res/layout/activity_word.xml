@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?attr/colorSurface">
 
     <!-- Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
@@ -11,80 +12,29 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar" />
-
-    <!-- Header card with title + logout -->
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="12dp"
-        app:cardBackgroundColor="?attr/colorSurface"
-        app:strokeWidth="0dp"
-        android:padding="16dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:id="@+id/headerTexts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tiwi Words"
-                    android:textStyle="bold"
-                    android:textSize="20sp"/>
-
-                <TextView
-                    android:id="@+id/tvSubtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Student View"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnLogout"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Logout"
-                android:layout_alignParentEnd="true"/>
-        </RelativeLayout>
-    </com.google.android.material.card.MaterialCardView>
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        app:title="Tiwi Words"
+        app:subtitle="Student View"
+        app:titleCentered="true"
+        app:menu="@menu/word_menu" />
 
     <!-- Search -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilSearch"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_margin="12dp"
+        android:hint="Search words or meanings..."
         app:startIconDrawable="@android:drawable/ic_menu_search">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tietSearch"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Search words or meanings..." />
+            android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Section title -->
-    <TextView
-        android:id="@+id/tvSection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Word Collection"
-        android:textStyle="bold"
-        android:layout_marginTop="14dp"
-        android:layout_marginBottom="6dp"/>
-
-    <!-- RecyclerView fills remaining space -->
+    <!-- Recycler -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
@@ -92,5 +42,4 @@
         android:layout_weight="1"
         android:padding="8dp"
         android:clipToPadding="false"/>
-
 </LinearLayout>

@@ -44,4 +44,12 @@ class WordAdapter(private val fullList: MutableList<Word>) :
         }
         notifyDataSetChanged()
     }
+
+    /** Swipe-to-delete support */
+    fun removeAt(position: Int) {
+        if (position !in current.indices) return
+        val removedItem = current.removeAt(position)
+        fullList.remove(removedItem) // remove the same object from the backing list
+        notifyItemRemoved(position)
+    }
 }
