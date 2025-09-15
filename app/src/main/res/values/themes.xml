@@ -23,5 +23,19 @@
         <!-- Default text -->
         <item name="android:textColorPrimary">@color/tiwi_text</item>
         <item name="android:textColorSecondary">@color/tiwi_text_secondary</item>
+
+        <!-- Fix popup menu visibility -->
+        <item name="popupMenuStyle">@style/Widget.LanguageApp.PopupMenu</item>
     </style>
+
+    <!-- Custom popup menu style -->
+    <style name="Widget.LanguageApp.PopupMenu" parent="Widget.Material3.PopupMenu">
+        <item name="android:popupBackground">@color/tiwi_primary_dark</item>
+        <item name="android:textColor">@color/tiwi_on_primary</item>
+    </style>
+    <style name="ThemeOverlay.LanguageApp.DarkPopup" parent="ThemeOverlay.Material3.Dark">
+        <item name="android:popupBackground">@color/tiwi_primary_dark</item>
+        <item name="android:textColor">@color/tiwi_on_primary</item>
+    </style>
+
 </resources>

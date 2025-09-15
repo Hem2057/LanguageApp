@@ -1,11 +1,14 @@
 package com.example.languageapp
 
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.io.File
 
 class WordAdapter(
     private val fullList: MutableList<Word>,
@@ -25,6 +28,7 @@ class WordAdapter(
     inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvWord: TextView = itemView.findViewById(R.id.tvWord)
         val tvMeaning: TextView = itemView.findViewById(R.id.tvMeaning)
+        val ivPhoto: ImageView = itemView.findViewById(R.id.ivPhoto)
         val btnRecord: ImageButton = itemView.findViewById(R.id.btnRecord)
         val btnPlay: ImageButton = itemView.findViewById(R.id.btnPlay)
         val btnCamera: ImageButton = itemView.findViewById(R.id.btnCamera)
@@ -32,8 +36,7 @@ class WordAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_word, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_word, parent, false)
         return VH(v)
     }
 
@@ -50,6 +53,15 @@ class WordAdapter(
             else android.R.drawable.btn_star_big_off
         )
 
+        val ctx = holder.itemView.context
+        val imgFile = File(ctx.filesDir, "images/photo_${sanitize(item.word)}.jpg")
+        if (imgFile.exists()) {
+            holder.ivPhoto.setImageBitmap(BitmapFactory.decodeFile(imgFile.absolutePath))
+            holder.ivPhoto.visibility = View.VISIBLE
+        } else {
+            holder.ivPhoto.visibility = View.GONE
+        }
+
         holder.btnRecord.setOnClickListener { callbacks.onRecord(item) }
         holder.btnPlay.setOnClickListener { callbacks.onPlay(item) }
         holder.btnCamera.setOnClickListener { callbacks.onCamera(item) }
@@ -61,27 +73,26 @@ class WordAdapter(
         }
     }
 
-
     fun filter(query: String) {
         val q = query.trim().lowercase()
         current.clear()
         if (q.isEmpty()) {
             current.addAll(fullList)
         } else {
-            current.addAll(
-                fullList.filter {
-                    it.word.lowercase().contains(q) || it.meaning.lowercase().contains(q)
-                }
-            )
+            current.addAll(fullList.filter {
+                it.word.lowercase().contains(q) || it.meaning.lowercase().contains(q)
+            })
         }
         notifyDataSetChanged()
     }
 
-    /** Swipe-to-delete support */
     fun removeAt(position: Int) {
         if (position !in current.indices) return
-        val removedItem = current.removeAt(position)
-        fullList.remove(removedItem) // remove the same object from the backing list
+        val removed = current.removeAt(position)
+        fullList.remove(removed)
         notifyItemRemoved(position)
     }
+
+    private fun sanitize(s: String) =
+        s.lowercase().replace("[^a-z0-9_]".toRegex(), "_")
 }

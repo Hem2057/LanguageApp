@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <files-path name="images" path="images/" />
+
+    <!-- INTERNAL app files dir: /data/data/<pkg>/files/images/... -->
+    <files-path
+        name="internal_images"
+        path="images/" />
+
+    <!-- (Optional) external app-specific pictures dir if you ever use it -->
+    <!--
+    <external-files-path
+        name="external_pictures"
+        path="Pictures/" />
+    -->
 </paths>

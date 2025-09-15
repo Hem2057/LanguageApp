@@ -9,13 +9,23 @@ class WelcomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // If we already have data saved, skip the welcome
+        val existing = WordStore.load(this)
+        if (existing.isNotEmpty()) {
+            startActivity(Intent(this, WordActivity::class.java))
+            finish()
+            return
+        }
+
         setContentView(R.layout.activity_welcome)
 
-        val btnStart = findViewById<Button>(R.id.btnStart)
-
-        btnStart.setOnClickListener {
-            // Go to role selection screen
-            startActivity(Intent(this, RoleSelectionActivity::class.java))
+        findViewById<Button>(R.id.btnStart).setOnClickListener {
+            // First run: seed with repository words, then go to list
+            val seed = WordRepository.getWords().toMutableList()
+            WordStore.save(this, seed)
+            startActivity(Intent(this, WordActivity::class.java))
+            finish()
         }
     }
 }

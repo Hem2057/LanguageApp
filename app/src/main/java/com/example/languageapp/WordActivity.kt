@@ -30,7 +30,6 @@ class WordActivity : AppCompatActivity(), WordAdapter.Callbacks {
     private lateinit var b: ActivityWordBinding
     private lateinit var adapter: WordAdapter
 
-    // Favorites
     private val prefs by lazy { getSharedPreferences("prefs_word", MODE_PRIVATE) }
     private val favoriteSet: MutableSet<String> by lazy {
         prefs.getStringSet("favorites", emptySet())?.toMutableSet() ?: mutableSetOf()
@@ -45,21 +44,17 @@ class WordActivity : AppCompatActivity(), WordAdapter.Callbacks {
     private var pendingPhotoWord: Word? = null
     private var pendingPhotoUri: Uri? = null
 
-    // Permission launcher (mic/camera)
     private val requestPerms = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
-    ) { /* user can tap again after granting */ }
+    ) { /* handled after user grants */ }
 
-    // Take picture launcher
     private val takePicture = registerForActivityResult(
         ActivityResultContracts.TakePicture()
     ) { saved ->
         val w = pendingPhotoWord
-        val uri = pendingPhotoUri
-        if (saved && w != null && uri != null) {
+        if (saved && w != null) {
             Toast.makeText(this, "Photo saved for ${w.word}", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Photo canceled", Toast.LENGTH_SHORT).show()
+            adapter.notifyDataSetChanged()
         }
         pendingPhotoWord = null
         pendingPhotoUri = null
@@ -67,11 +62,27 @@ class WordActivity : AppCompatActivity(), WordAdapter.Callbacks {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Redirect to role selection if not onboarded
+        if (!UserStore.isOnboarded(this)) {
+            startActivity(Intent(this, RoleSelectionActivity::class.java))
+            finish()
+            return
+        }
+
         b = ActivityWordBinding.inflate(layoutInflater)
         setContentView(b.root)
-        setSupportActionBar(b.toolbar)
 
-        val words = WordRepository.getWords()
+        // Toolbar setup
+        setSupportActionBar(b.toolbar)
+        supportActionBar?.title = "Tiwi Words"
+        val userSubtitle = "${UserStore.name(this)} • ${UserStore.role(this)}"
+        b.toolbar.subtitle = userSubtitle
+
+        // Load words
+        val words = WordStore.load(this).ifEmpty {
+            WordRepository.getWords().toMutableList().also { WordStore.save(this, it) }
+        }
 
         adapter = WordAdapter(words.toMutableList(), favoriteSet, this)
         b.recycler.layoutManager = LinearLayoutManager(this)
@@ -92,12 +103,25 @@ class WordActivity : AppCompatActivity(), WordAdapter.Callbacks {
         })
         helper.attachToRecyclerView(b.recycler)
 
-        // Optional: request once on start (we also check on demand)
+        // FAB → Add Word
+        b.fabAddWord.setOnClickListener {
+            startActivity(Intent(this, AddWordActivity::class.java))
+        }
+
+        // Request runtime permissions
         requestPerms.launch(arrayOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA))
     }
 
-    // ===== Adapter callbacks =====
+    override fun onResume() {
+        super.onResume()
+        val updated = WordStore.load(this).ifEmpty {
+            WordRepository.getWords().toMutableList().also { WordStore.save(this, it) }
+        }
+        adapter = WordAdapter(updated.toMutableList(), favoriteSet, this)
+        b.recycler.adapter = adapter
+    }
 
+    // --- Adapter callbacks ---
     override fun onRecord(word: Word) {
         if (!hasPermission(Manifest.permission.RECORD_AUDIO)) {
             requestPerms.launch(arrayOf(Manifest.permission.RECORD_AUDIO))
@@ -109,17 +133,13 @@ class WordActivity : AppCompatActivity(), WordAdapter.Callbacks {
 
     override fun onPlay(word: Word) {
         val file = audioFileFor(word)
-        // require a non-tiny file (avoid “instant stop” empties)
         if (!file.exists() || file.length() < 2048L) {
             Toast.makeText(this, "No usable recording for ${word.word}", Toast.LENGTH_SHORT).show()
             return
         }
-
         stopPlaying()
-
         try {
             player = MediaPlayer().apply {
-                // Always safe (minSdk 24)
                 setAudioAttributes(
                     AudioAttributes.Builder()
                         .setUsage(AudioAttributes.USAGE_MEDIA)
@@ -127,37 +147,24 @@ class WordActivity : AppCompatActivity(), WordAdapter.Callbacks {
                         .build()
                 )
                 setDataSource(file.absolutePath)
-
                 setOnPreparedListener { mp ->
-                    // Force speaker so it doesn't route to the earpiece
                     val am = getSystemService(AUDIO_SERVICE) as AudioManager
                     am.mode = AudioManager.MODE_NORMAL
                     am.isSpeakerphoneOn = true
-
                     mp.start()
                 }
                 setOnCompletionListener { stopPlaying() }
                 setOnErrorListener { _, what, extra ->
                     stopPlaying()
-                    Toast.makeText(
-                        this@WordActivity,
-                        "Playback error ($what/$extra)",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this@WordActivity, "Playback error ($what/$extra)", Toast.LENGTH_SHORT).show()
                     false
                 }
-
-                // Synchronous prepare so errors surface immediately
                 prepare()
                 start()
             }
         } catch (e: Exception) {
             stopPlaying()
-            Toast.makeText(
-                this,
-                "Could not play recording: ${e.localizedMessage ?: "unknown error"}",
-                Toast.LENGTH_LONG
-            ).show()
+            Toast.makeText(this, "Could not play recording: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -167,12 +174,18 @@ class WordActivity : AppCompatActivity(), WordAdapter.Callbacks {
             Toast.makeText(this, "Please allow Camera permission to take a photo", Toast.LENGTH_SHORT).show()
             return
         }
-        val dir = File(filesDir, "images").apply { if (!exists()) mkdirs() }
-        val file = File(dir, "photo_${sanitize(word.word)}.jpg")
-        val uri = FileProvider.getUriForFile(this, "${packageName}.fileprovider", file)
-        pendingPhotoWord = word
-        pendingPhotoUri = uri
-        takePicture.launch(uri)
+
+        try {
+            val file = photoFileFor(word) // ensures dir exists
+            val uri = FileProvider.getUriForFile(this, "${packageName}.fileprovider", file)
+            pendingPhotoWord = word
+            pendingPhotoUri = uri
+            takePicture.launch(uri)
+        } catch (e: Exception) {
+            pendingPhotoWord = null
+            pendingPhotoUri = null
+            Toast.makeText(this, "Camera setup failed: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onToggleFavorite(word: Word, nowFavorite: Boolean) {
@@ -184,21 +197,16 @@ class WordActivity : AppCompatActivity(), WordAdapter.Callbacks {
         ).show()
     }
 
-    // ===== Recording helpers (AAC .m4a to filesDir) =====
-
+    // --- Recording helpers ---
     private fun startRecording(word: Word) {
-        val file = audioFileFor(word) // .../files/audio_<word>.m4a
+        val file = audioFileFor(word)
         stopRecording()
         stopPlaying()
 
         @Suppress("DEPRECATION")
-        recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            MediaRecorder(this)
-        } else {
-            MediaRecorder()
-        }.apply {
+        recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) MediaRecorder(this) else MediaRecorder()
+        recorder?.apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
-            // Use AAC in MPEG_4 container (m4a) — plays on all modern devices
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
             setOutputFile(file.absolutePath)
             setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
@@ -207,14 +215,13 @@ class WordActivity : AppCompatActivity(), WordAdapter.Callbacks {
             prepare()
             start()
         }
-
         isRecording = true
         Toast.makeText(this, "Recording… ${word.word}", Toast.LENGTH_SHORT).show()
     }
 
     private fun stopRecording() {
         if (!isRecording) return
-        try { recorder?.stop() } catch (_: Exception) { /* short recs can throw */ }
+        try { recorder?.stop() } catch (_: Exception) { }
         recorder?.release()
         recorder = null
         isRecording = false
@@ -227,9 +234,13 @@ class WordActivity : AppCompatActivity(), WordAdapter.Callbacks {
         player = null
     }
 
-    // Save in filesDir (persistent) with .m4a extension
     private fun audioFileFor(word: Word): File =
         File(filesDir, "audio_${sanitize(word.word)}.m4a")
+
+    private fun photoFileFor(word: Word): File {
+        val dir = File(filesDir, "images").apply { if (!exists()) mkdirs() }
+        return File(dir, "photo_${sanitize(word.word)}.jpg")
+    }
 
     private fun sanitize(s: String) =
         s.lowercase().replace("[^a-z0-9_]".toRegex(), "_")
@@ -237,7 +248,7 @@ class WordActivity : AppCompatActivity(), WordAdapter.Callbacks {
     private fun hasPermission(p: String) =
         ActivityCompat.checkSelfPermission(this, p) == PackageManager.PERMISSION_GRANTED
 
-    // ===== Toolbar menu (Logout) =====
+    // --- Toolbar menu ---
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.word_menu, menu)
         return true
@@ -245,7 +256,14 @@ class WordActivity : AppCompatActivity(), WordAdapter.Callbacks {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.action_test -> {
+                // Go to line test screen
+                startActivity(Intent(this, SecondActivity::class.java))
+                true
+            }
             R.id.action_logout -> {
+                // Clear user info & go back to role selection
+                UserStore.clear(this)
                 val i = Intent(this, RoleSelectionActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 }
